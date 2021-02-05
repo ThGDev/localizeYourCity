@@ -1,0 +1,39 @@
+body{
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    width: 100vw;
+    box-sizing: content-box;
+}
+
+#recherche{
+    margin-bottom: 10px;
+}
+
+#listeVilles{
+    display: none;
+    position: absolute;
+    padding: 10px;
+    background: #fff;
+    z-index: 9999;
+    margin: 0;
+    border: 1px solid silver;
+    border-radius: 5px;
+}
+
+#closeButton{
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 99999;
+}
+
+#map {
+    height: 280px;
+    border: 1px solid black;
+}
+
+li{
+    cursor: pointer;
+}
