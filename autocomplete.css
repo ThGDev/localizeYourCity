@@ -20,12 +20,23 @@ body{
 }
 #date::before{
     position: absolute;
-    top: -27px;
+    top: -20px;
     left: -1px;
     content: 'DATE';
     color: #FA9A60;
     font-weight: 900;
-    font-size: 1.3rem;
+    font-size: 1rem;
+}
+
+#dateHeure{
+    position: relative;
+}
+
+#heure{
+    position: absolute;
+    right: 0;
+    top: -17px;
+    font-size: 0.8rem;
 }
 
 #recherche{
@@ -41,20 +52,35 @@ body{
 #listeVilles{
     display: none;
     position: absolute;
-    padding: 10px;
     background: #fff;
     z-index: 9999;
     margin: 0;
     border: 1px solid silver;
-    border-radius: 5px;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+}
+
+#results{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li{
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 15px;
 }
 
 #closeButton{
     cursor: pointer;
     position: absolute;
-    top: 0px;
-    right: 5px;
+    top: -14px;
+    right: -8px;
     z-index: 99999;
+}
+#closeButton > svg{
+    background: #fff;
 }
 
 #mapAndWeather{
@@ -82,8 +108,10 @@ body{
     width: fit-content;
 }
 
-li{
-    cursor: pointer;
+#chart{
+    position: relative;
+    width: 77vw;
+    height: 33vh;
 }
 
 /* MEDIA QUERY */
@@ -97,6 +125,11 @@ li{
         padding-top: 1px;
         width: 100%;
         justify-content: space-between;
+    }
+    #heure{
+        right: 0;
+        top: -17px;
+        font-size: 0.8rem;
     }
     #recherche{
         margin-bottom: 10px;
@@ -114,5 +147,9 @@ li{
     }
     #weatherDiv{
         width: 100%;
+    }
+    #chart{
+        width: 90vw;
+        height: 30vh;
     }
 }
