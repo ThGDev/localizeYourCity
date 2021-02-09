@@ -17,7 +17,7 @@ const search = (event) => {
         data.hits.forEach(place => {    // je boucle sur le tableau des résultats
             // j'écris ces résultats dans mon UL en HTML
             ulResults.insertAdjacentHTML('beforeend', `
-                <li data-long="${place._geoloc.lng}" data-lat="${place._geoloc.lat}" data-town="${place.locale_names.default}">${place.locale_names.default}</li>
+                <li tabindex="0" data-long="${place._geoloc.lng}" data-lat="${place._geoloc.lat}" data-town="${place.locale_names.default}">${place.locale_names.default}</li>
             `);
         });
         const listElement = document.querySelectorAll('li');    // je cible tous les <li> et ça me renvoie un tableau
@@ -25,13 +25,19 @@ const search = (event) => {
         for (i = 0; i < listElement.length; i++) {  // je boucle sur ce tableau
             //console.log(listElement[i].getAttribute('data-long'));
             listElement[i].addEventListener('click', (event) => {   // au clic, pour chaque <li>, je récupère des datas (dataset)
-                const lgt = event.target.getAttribute('data-long');
-                const lat = event.target.getAttribute('data-lat');
-                const town = event.target.getAttribute('data-town'); 
-                initMap(lat, lgt, town);  // et j'exécute ma fonction mapSearch en injectant les datas récup au-dessus en paramètres
-                weatherCall(lat, lgt, town);
-                listeVilles.style.display = 'none';
-                searchBox.value = '';
+                // const lgt = event.target.getAttribute('data-long');
+                // const lat = event.target.getAttribute('data-lat');
+                // const town = event.target.getAttribute('data-town'); 
+                // initMap(lat, lgt, town);  // et j'exécute ma fonction mapSearch en injectant les datas récup au-dessus en paramètres
+                // weatherCall(lat, lgt, town);
+                // listeVilles.style.display = 'none';
+                // searchBox.value = '';
+                avoirAttributs(event);
+            })
+            listElement[i].addEventListener('keyup', (event) => {   // au clic, pour chaque <li>, je récupère des datas (dataset)
+                if(event.keyCode == 13){    // si l'event est la touche "entrée"
+                    avoirAttributs(event);    // alors j'exécute ma fonction
+                }
             })
         }
         
@@ -41,14 +47,37 @@ const search = (event) => {
     })
 }
 // exécute la fonction de recherche (ci-dessus) à la saisie dans le INPUT
-searchBox.addEventListener('keyup', search);
+searchBox.addEventListener('keydown', search);
 
-// pour fermer la liste des villes dans le UL
-const closeButton = document.querySelector('#closeButton');
-closeButton.addEventListener('click', () => {
-    console.log(listeVilles);
+function avoirAttributs(event){
+    const lgt = event.target.getAttribute('data-long');
+    const lat = event.target.getAttribute('data-lat');
+    const town = event.target.getAttribute('data-town'); 
+    initMap(lat, lgt, town);  // et j'exécute ma fonction mapSearch en injectant les datas récup au-dessus en paramètres
+    weatherCall(lat, lgt, town); // idem avec la météo
     listeVilles.style.display = 'none';
     searchBox.value = '';
+}
+
+// pour fermer la liste des villes dans le UL
+const closeResults = () => {
+    //console.log(listeVilles);
+    listeVilles.style.display = 'none';
+    searchBox.value = '';
+}
+
+const closeButton = document.querySelector('#closeButton');
+closeButton.addEventListener('click', closeResults)
+
+ulResults.addEventListener('keyup', (event) => {
+    if(event.keyCode == 27){    // si l'event est la touche "esc"
+        closeResults();    // alors j'exécute ma fonction
+    }
+})
+searchBox.addEventListener('keyup', (event) => {
+    if(event.keyCode == 27){    // si l'event est la touche "esc"
+        closeResults();    // alors j'exécute ma fonction
+    }
 })
 
 /* -------------------------------- MAP --------------------------------*/
