@@ -25,13 +25,6 @@ const search = (event) => {
         for (i = 0; i < listElement.length; i++) {  // je boucle sur ce tableau
             //console.log(listElement[i].getAttribute('data-long'));
             listElement[i].addEventListener('click', (event) => {   // au clic, pour chaque <li>, je récupère des datas (dataset)
-                // const lgt = event.target.getAttribute('data-long');
-                // const lat = event.target.getAttribute('data-lat');
-                // const town = event.target.getAttribute('data-town'); 
-                // initMap(lat, lgt, town);  // et j'exécute ma fonction mapSearch en injectant les datas récup au-dessus en paramètres
-                // weatherCall(lat, lgt, town);
-                // listeVilles.style.display = 'none';
-                // searchBox.value = '';
                 avoirAttributs(event);
             })
             listElement[i].addEventListener('keyup', (event) => {   // au clic, pour chaque <li>, je récupère des datas (dataset)
@@ -95,12 +88,19 @@ function initMap(lat, lon, ville) {
     // affectation du nom de la ville sélectionnée dans le popup quand on clic sur le marqueur
     marker.bindPopup(ville);
     // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
-    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-        // Il est toujours bien de laisser le lien vers la source des données
-        attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
-        minZoom: 1,
-        maxZoom: 20
-    }).addTo(macarte);
+    // L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+    //     // Il est toujours bien de laisser le lien vers la source des données
+    //     attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+    //     minZoom: 1,
+    //     maxZoom: 20
+    // })
+    L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+	attribution: 'données © <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	subdomains: 'abcd',
+	minZoom: 1,
+	maxZoom: 16,
+	ext: 'jpg'
+}).addTo(macarte);
 }
 initMap(43.6769, 4.6287, 'Arles');  // au chargement de la page, je charge la map ciblée sur Arles par défaut
 
@@ -166,59 +166,59 @@ let timerID = setInterval(runClock,1000);
 /* --------------------------- PREVISIONS METEO ---------------------------*/
 
 // tableaux des icônes pour la météo jour/nuit
-const weatherDay = [];
-const weatherNight = ['<img src="http://openweathermap.org/img/wn/50n.png" />'];
+// const weatherDay = [];
+// const weatherNight = ['<img src="http://openweathermap.org/img/wn/50n.png" />'];
 
-for (let i = 1; i < 14; i++) {  // boucle pour remplir les tableaux avec les icônes
-    if(i<10){       // pour mettre un zéro devant les nombres < 10
-        i = `0${i}`;
-    }
-    weatherDay.push(`<img src="http://openweathermap.org/img/wn/${i}d.png" />`);
-    weatherNight.push(`<img src="http://openweathermap.org/img/wn/${i}n.png" />`);
-}
-weatherDay.push('<img src="http://openweathermap.org/img/wn/50d.png" />');
-weatherNight.push('<img src="http://openweathermap.org/img/wn/50n.png" />');
-//console.log(weatherDay, weatherNight);
+// for (let i = 1; i < 14; i++) {  // boucle pour remplir les tableaux avec les icônes
+//     if(i<10){       // pour mettre un zéro devant les nombres < 10
+//         i = `0${i}`;
+//     }
+//     weatherDay.push(`<img src="http://openweathermap.org/img/wn/${i}d.png" />`);
+//     weatherNight.push(`<img src="http://openweathermap.org/img/wn/${i}n.png" />`);
+// }
+// weatherDay.push('<img src="http://openweathermap.org/img/wn/50d.png" />');
+// weatherNight.push('<img src="http://openweathermap.org/img/wn/50n.png" />');
+// //console.log(weatherDay, weatherNight);
 
-const date = ['lundi', 'truc', 'bidule', 'lundi', 'truc', 'bidule'];    //TODO remplir avec API OpenWeatherMap !!
-const ctx = document.querySelector('#previsionsMeteo');
-const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: date,
-        datasets: [{
-            label: '# of Votes',
-            data: weatherDay,//[12, 19, 3, 5, 2, 3], // rapport avec $date
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        maintainAspectRatio: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
+// const date = ['lundi', 'truc', 'bidule', 'lundi', 'truc', 'bidule'];    //TODO remplir avec API OpenWeatherMap !!
+// const ctx = document.querySelector('#previsionsMeteo');
+// const myChart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//         labels: date,
+//         datasets: [{
+//             label: '# of Votes',
+//             data: weatherDay,//[12, 19, 3, 5, 2, 3], // rapport avec $date
+//             backgroundColor: [
+//                 'rgba(255, 99, 132, 0.2)',
+//                 'rgba(54, 162, 235, 0.2)',
+//                 'rgba(255, 206, 86, 0.2)',
+//                 'rgba(75, 192, 192, 0.2)',
+//                 'rgba(153, 102, 255, 0.2)',
+//                 'rgba(255, 159, 64, 0.2)'
+//             ],
+//             borderColor: [
+//                 'rgba(255, 99, 132, 1)',
+//                 'rgba(54, 162, 235, 1)',
+//                 'rgba(255, 206, 86, 1)',
+//                 'rgba(75, 192, 192, 1)',
+//                 'rgba(153, 102, 255, 1)',
+//                 'rgba(255, 159, 64, 1)'
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         maintainAspectRatio: false,
+//         scales: {
+//             yAxes: [{
+//                 ticks: {
+//                     beginAtZero: true
+//                 }
+//             }]
+//         }
+//     }
+// });
 
 /*
 var config = {
